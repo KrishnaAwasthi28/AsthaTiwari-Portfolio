@@ -7,7 +7,7 @@ export default function Footer() {
       {/* Social Icons */}
       <div className="flex justify-center gap-6 mb-4">
         
-        <a href="https://www.instagram.com/astha_tiwari3006?igsh=bmZ3YW15c3hwYmE2" target="_blank" className="group">
+        <a href="https://www.instagram.com/astha_tiwari3006?igsh=MTdtZ3JrNGtqdTF4Yw==" target="_blank" className="group">
           <FaInstagram className="text-xl text-gray-600 group-hover:text-black transition transform group-hover:scale-110" />
         </a>
 

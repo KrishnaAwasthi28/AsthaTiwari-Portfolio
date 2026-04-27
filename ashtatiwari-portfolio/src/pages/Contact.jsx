@@ -59,7 +59,7 @@ export default function Contact() {
         whileInView={{ opacity: 1 }}
       >
         {[
-          { icon: <FaInstagram />, link: "https://www.instagram.com/astha_tiwari3006?igsh=bmZ3YW15c3hwYmE2" },
+          { icon: <FaInstagram />, link: "https://www.instagram.com/astha_tiwari3006?igsh=MTdtZ3JrNGtqdTF4Yw==" },
           { icon: <FaEnvelope />, link: "mailto:asthatiwari498@gmail.com" },
         ].map((item, i) => (
           <a key={i} href={item.link} target="_blank" className="group">
