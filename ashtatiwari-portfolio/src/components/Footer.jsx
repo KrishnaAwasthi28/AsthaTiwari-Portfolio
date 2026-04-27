@@ -11,10 +11,6 @@ export default function Footer() {
           <FaInstagram className="text-xl text-gray-600 group-hover:text-black transition transform group-hover:scale-110" />
         </a>
 
-        <a href="https://wa.me/918960444768" target="_blank" className="group">
-          <FaWhatsapp className="text-xl text-gray-600 group-hover:text-black transition transform group-hover:scale-110" />
-        </a>
-
         <a href="mailto:asthatiwari498@gmail.com" className="group">
           <FaEnvelope className="text-xl text-gray-600 group-hover:text-black transition transform group-hover:scale-110" />
         </a>
