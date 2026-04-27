@@ -73,7 +73,7 @@ export default function About() {
           <h1 className="text-3xl md:text-4xl font-serif">Artist Statement</h1>
 
           <p className="mt-6 text-gray-600 leading-relaxed">
-            Absence, for me, is not empty—it carries a quiet, lingering
+            Absence, for me, is not empty, it carries a quiet, lingering
             presence. It exists in fragments of memory and in the spaces between
             what is seen and felt, shaping subtle mental landscapes.
           </p>
@@ -180,33 +180,27 @@ export default function About() {
       </motion.div>
 
       {/* ================= AWARDS ================= */}
-      <motion.div className="mt-24 max-w-3xl mx-auto text-center">
+      <motion.div className="mt-24 max-w-4xl mx-auto px-4">
         <SectionTitle title="Awards" />
 
-        <div className="space-y-6">
+        <div className="space-y-5 mt-10">
           {awards.map((item, i) => (
             <motion.div
               key={i}
-              className="relative bg-gradient-to-r from-gray-800 to-gray-700 text-white p-6 rounded-2xl shadow-md overflow-hidden group cursor-pointer"
+              className="group relative bg-white/70 backdrop-blur-md border border-gray-200 p-5 rounded-xl transition-all duration-300 cursor-pointer"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -5, scale: 1.02 }}
-              transition={{ duration: 0.3 }}
+              whileHover={{ y: -4 }}
             >
-              {/* 🔥 TOP LINE ANIMATION */}
-              <span className="absolute top-0 left-0 h-[2px] w-full bg-white/70 scale-x-0 group-hover:scale-x-100 transition duration-500 origin-left"></span>
+              {/* Top hover line */}
+              <div className="absolute top-0 left-0 w-0 h-[2px] bg-gray-800 group-hover:w-full transition-all duration-300"></div>
 
-              {/* ✨ SHIMMER EFFECT */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
-                <div className="w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
-              </div>
-
-              {/* 🌟 GLOW */}
-              <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition"></div>
-
-              {/* CONTENT */}
-              <p className="relative z-10 text-lg flex items-center justify-center gap-3">
-                🏆 {item}
+              {/* Content */}
+              <p className="text-gray-700 leading-relaxed flex items-start gap-3">
+                <span className="text-lg">🏆</span>
+                <span className="group-hover:text-gray-900 transition">
+                  {item}
+                </span>
               </p>
             </motion.div>
           ))}

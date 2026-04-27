@@ -6,13 +6,11 @@ import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import Footer from "./components/Footer";
-import WhatsAppButton from "./components/WhatsAppButton.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <WhatsAppButton />
 
       <Routes>
         <Route path="/" element={<Home />} />
