@@ -7,7 +7,7 @@ export default function Gallery() {
   const [filter, setFilter] = useState("all");
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // Fetch data (runs ONLY once ✅)
+  // Fetch data
   useEffect(() => {
     client
       .fetch(`*[_type == "artwork"]{
@@ -15,21 +15,27 @@ export default function Gallery() {
         title,
         category,
         image{
-          asset->{
-            url
-          }
+          asset->{url}
         }
       }`)
       .then((data) => setImages(data))
       .catch((err) => console.error(err));
   }, []);
 
-  // Optimized filtering ✅
+  // Filter logic
   const filteredImages = useMemo(() => {
     return filter === "all"
       ? images
       : images.filter((item) => item.category === filter);
   }, [images, filter]);
+
+  // Tabs (IMPORTANT FIX)
+  const tabs = [
+    { label: "All", value: "all" },
+    { label: "Paintings", value: "paintings" },
+    { label: "Installations", value: "installations" },
+    { label: "Collaborations", value: "collaborations" }, // ✅ matches Sanity
+  ];
 
   return (
     <div className="pt-28 px-6 md:px-20 bg-[#f8f5f2] min-h-screen">
@@ -41,61 +47,79 @@ export default function Gallery() {
 
       {/* Tabs */}
       <div className="flex justify-center gap-4 mb-12 flex-wrap">
-        {["all", "paintings", "installations", "collaborations"].map((tab) => (
+        {tabs.map((tab) => (
           <button
-            key={tab}
-            onClick={() => setFilter(tab)}
-            className={`px-5 py-2 rounded-full border transition capitalize
+            key={tab.value}
+            onClick={() => setFilter(tab.value)}
+            className={`px-5 py-2 rounded-full border transition
               ${
-                filter === tab
+                filter === tab.value
                   ? "bg-gray-800 text-white"
                   : "text-gray-600 hover:bg-gray-200"
               }`}
           >
-            {tab}
+            {tab.label}
           </button>
         ))}
       </div>
+
+      {/* Collaboration Description */}
+      {filter === "collaborations" && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl mx-auto mb-10 text-center"
+        >
+          <h2 className="text-2xl md:text-3xl font-serif text-gray-800">
+            “Between Rooms”
+          </h2>
+
+          <p className="text-gray-500 mt-1 italic">
+            Collaborative Installation • Variable • 2025–26
+          </p>
+
+          <p className="mt-3 text-gray-600">
+            A collaborative installation in Student's Biennale, Kochi, with
+            Sagarika Sarkar and Shubham Das.
+          </p>
+
+          <p className="mt-3 text-gray-600 leading-relaxed">
+            Exploring middle class domestic life and emotional complexity.
+            Everyday objects like beds, mosquito nets, ants and insects become
+            carriers of memory and tension. The work highlights layered domestic
+            and ecological narratives.
+          </p>
+
+          <div className="w-20 h-[2px] bg-gray-800 mx-auto mt-6"></div>
+        </motion.div>
+      )}
 
       {/* Grid */}
       <motion.div
         key={filter}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
       >
         {filteredImages.map((item) => (
           <motion.div
             key={item._id}
-            className="relative overflow-hidden rounded-xl group cursor-pointer"
+            className="relative rounded-xl group cursor-pointer"
             whileHover={{ scale: 1.03 }}
             onClick={() => setSelectedImage(item)}
           >
-            {/* Image */}
-            {/* <div className="bg-[#f5f1ec] rounded-xl overflow-hidden p-2">
+            {/* Image Container */}
+            <div className="w-full h-72 flex items-center justify-center bg-[#f5f1ec] rounded-xl overflow-hidden p-2">
               <img
                 src={item.image?.asset?.url}
                 alt={item.title}
                 loading="lazy"
-                onClick={() => setSelectedImage(item.image?.asset?.url)}
-                onClick={(e) => e.stopPropagation()}
-                className="w-full h-auto object-contain transition duration-500 group-hover:scale-105"
-              />
-            </div> */}
-            <div className="w-full h-72 flex items-center justify-center bg-[#f5f1ec] rounded-xl overflow-hidden">
-              <img
-                src={item.image?.asset?.url}
-                alt={item.title}
-                loading="lazy"
-                onClick={() => setSelectedImage(item.image?.asset?.url)}
-                onClick={(e) => e.stopPropagation()}
                 className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-105"
               />
             </div>
 
-            {/* 🔥 Hover Overlay */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+            {/* Hover Overlay */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center rounded-xl">
               <p className="text-white text-lg font-medium text-center px-4">
                 {item.title}
               </p>
@@ -137,6 +161,7 @@ export default function Gallery() {
           </p>
         </div>
       )}
-      </div>
+
+    </div>
   );
 }
