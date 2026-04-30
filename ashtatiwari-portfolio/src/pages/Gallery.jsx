@@ -67,18 +67,32 @@ export default function Gallery() {
       >
         {filteredImages.map((item) => (
           <motion.div
-            key={item._id} // ✅ FIXED KEY
+            key={item._id}
             className="relative overflow-hidden rounded-xl group cursor-pointer"
             whileHover={{ scale: 1.03 }}
+            onClick={() => setSelectedImage(item)}
           >
             {/* Image */}
-            <img
-              src={item.image?.asset?.url}
-              alt={item.title}
-              loading="lazy"
-              onClick={() => setSelectedImage(item.image?.asset?.url)}
-              className="w-full h-64 object-cover rounded-xl transition duration-500 group-hover:scale-110"
-            />
+            {/* <div className="bg-[#f5f1ec] rounded-xl overflow-hidden p-2">
+              <img
+                src={item.image?.asset?.url}
+                alt={item.title}
+                loading="lazy"
+                onClick={() => setSelectedImage(item.image?.asset?.url)}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full h-auto object-contain transition duration-500 group-hover:scale-105"
+              />
+            </div> */}
+            <div className="w-full h-72 flex items-center justify-center bg-[#f5f1ec] rounded-xl overflow-hidden">
+              <img
+                src={item.image?.asset?.url}
+                alt={item.title}
+                loading="lazy"
+                onClick={() => setSelectedImage(item.image?.asset?.url)}
+                onClick={(e) => e.stopPropagation()}
+                className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-105"
+              />
+            </div>
 
             {/* 🔥 Hover Overlay */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
@@ -93,20 +107,36 @@ export default function Gallery() {
       {/* Lightbox */}
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50 p-4"
           onClick={() => setSelectedImage(null)}
         >
+          {/* Close Button */}
+          <button
+            className="absolute top-6 right-6 text-white text-3xl"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(null);
+            }}
+          >
+            ✕
+          </button>
+
+          {/* Image */}
           <motion.img
-            src={selectedImage}
+            src={selectedImage.image?.asset?.url}
             alt="preview"
-            className="max-w-[90%] max-h-[90%] rounded-lg"
+            className="max-w-full max-h-[80vh] object-contain rounded-lg"
+            onClick={(e) => e.stopPropagation()}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
           />
+
+          {/* Title */}
+          <p className="text-white mt-4 text-center text-lg">
+            {selectedImage.title}
+          </p>
         </div>
       )}
-
-      <div className="h-20"></div>
-    </div>
+      </div>
   );
 }
